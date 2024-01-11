@@ -1,0 +1,110 @@
+<% layout('layouts/boilerplate')  %>
+<link rel="stylesheet" href="/stylesheet/star.css">
+
+<div class="row">
+    <div class="col-6 mb-3">
+        <div id="campCarousel" class="carousel slide">
+            <div class="carousel-inner">
+                <% camp.img.forEach( (img,i) => { %>
+                <div class="carousel-item <%= i===0 ? "active" : "" %>">
+                    <img src="<%= img.url %>" class="d-block w-100" alt="...">
+                </div>
+                <% }) %>
+            </div>
+            <% if(camp.img.length > 1) { %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#campCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#campCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <% } %>
+        </div>
+        <div class="card">
+            
+            <div class="card-body">
+                <h5 class="card-title"><%= camp.name %></h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Price : <span><b>&#8377;</b></span> <%= camp.price %>/per night
+                </h6>
+                <p class="card-text">
+                    <%= camp.location %>
+                </p>
+                <p class="card-text">
+                    <%= camp.description %>
+                </p>
+                <p class="card-text">
+                   submitted by <%= camp.author.username %>
+                </p>
+                <% if( currentUser && camp.author.equals(currentUser._id) ) {%>
+                    <a href="/camp/<%=camp._id %>/edit" class="card-link btn btn-primary">Edit</a>
+                    <a href="/camp" class="card-link ">view all</a>
+
+                    <form action="/camp/<%=camp._id %>?_method=DELETE" method="POST">
+                        <button class="card-link btn btn-danger">delete</button>
+                    </form>
+                <% } %>
+
+            </div>
+            
+        </div>
+
+    </div>
+    
+    <div class="col-6">
+        <% if(currentUser) {%>
+        <h4>Leave a review</h4>
+        <form action="/camp/<%= camp._id %>/reviews" class="mb-5 validated-form" method="post" novalidate>
+            
+            <fieldset class="starability-basic">
+                <legend>rating:</legend>
+                <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="rating" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="rating" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="rating" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="rating" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="rating" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+            <div class="mb-3">
+                <label class="form-label" for="body">Review</label>
+                <textarea class="form-control" name="body" id="body" cols="30" rows="5" required></textarea>
+            </div>
+            <button class="btn btn-success">submit</button>
+        </form>
+        <% } %>
+        <div class="container">
+            <h4>Reviews</h4>
+            <% for( let review of camp.reviews) {%>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h4 class="text-muted"><%= review.author.username %>-</h4>
+                        <h5 class="card-title">
+                            Rating : <%= review.rating %>
+                            <p class="starability-result" data-rating="<%= review.rating %>">
+                                Rated: <%= review.rating %> stars
+                            </p>
+                        </h5>
+                        
+                        
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Review : <%= review.body %>
+                        </h6>
+                        <% if(currentUser && review.author.equals(currentUser._id)) {%>
+                        <form action="/camp/<%= camp._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                            <button class="btn btn-warning btn-sm">Delete</button>
+                        </form>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    </div>
+</div>
+
+
+

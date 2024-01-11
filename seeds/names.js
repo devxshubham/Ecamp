@@ -1,0 +1,36 @@
+module.exports.first = [
+    "Two",
+    "Stupid", 
+    'Dogs',
+    'Paradise',
+    'Palm',
+    'Springs',
+    'double', 'Forest',
+    'Sunsets', 
+    'View',
+    'Silent', 
+    'Dragon',
+    'Triumph',
+    'Always', 
+    'Available',
+
+]
+module.exports.last = [
+    'The Neighborhood',
+    'South',
+    'Shore',
+    'Resort',
+    'Planters',
+    'Inn',
+    'Giggle',
+    'Resort',
+    'One - night stand',
+    'Galactic',
+    'Hotel',
+    'Blue',
+    'Moon',
+    'Budget',
+    'Inn Olympus',
+    'Hotel',
+]
+
